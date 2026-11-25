@@ -1,0 +1,21 @@
+[project]
+name = "visual-plan"
+version = "0.1.0"
+description = "Render one structured plan for chat and offline browser review"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "jsonschema>=4.23",
+    "matplotlib>=3.10",
+    "platformdirs>=4.3",
+]
+
+[project.scripts]
+visual-plan = "visual_plan.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8.3"]
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"

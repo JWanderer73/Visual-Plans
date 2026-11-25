@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "id": "export-performance",
+  "title": "Track export performance",
+  "goal": "Show how file size affects export latency so the team can set a reliable performance budget.",
+  "examples": [
+    {
+      "type": "plot",
+      "caption": "Proposed latency report",
+      "chart": "line",
+      "x_axis": {"label": "File size", "unit": "MB"},
+      "y_axis": {"label": "Latency", "unit": "ms"},
+      "series": [
+        {"name": "Current exporter", "points": [{"x": 5, "y": 125}, {"x": 20, "y": 380}, {"x": 50, "y": 810}]},
+        {"name": "Streaming exporter", "points": [{"x": 5, "y": 110}, {"x": 20, "y": 255}, {"x": 50, "y": 485}]}
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "id": "contract",
+      "title": "Define the benchmark",
+      "detail": "Agree on the measurement window, file sizes, and units.",
+      "outcome": "Both exporters run against the same benchmark inputs.",
+      "depends_on": [],
+      "examples": [
+        {
+          "type": "table",
+          "caption": "Example benchmark inputs",
+          "columns": ["File size (MB)", "Run count", "Dataset"],
+          "rows": [[5, 10, "Small"], [20, 10, "Medium"], [50, 10, "Large"]]
+        }
+      ]
+    },
+    {
+      "id": "instrument",
+      "title": "Instrument the exporters",
+      "detail": "Capture elapsed time and bytes written in the export worker.",
+      "outcome": "Each run records latency and file size in the benchmark log.",
+      "depends_on": ["contract"],
+      "examples": [
+        {
+          "type": "diagram",
+          "caption": "How a worker retries a failed export",
+          "nodes": [
+            {"id": "queue", "label": "Queued"},
+            {"id": "worker", "label": "Running"},
+            {"id": "saved", "label": "Recorded"}
+          ],
+          "edges": [
+            {"from": "queue", "to": "worker", "label": "claim"},
+            {"from": "worker", "to": "queue", "label": "retry"},
+            {"from": "worker", "to": "saved", "label": "write result"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fixtures",
+      "title": "Prepare repeatable fixtures",
+      "detail": "Create seeded export inputs for the three target file sizes.",
+      "outcome": "The benchmark can regenerate all three inputs on demand.",
+      "depends_on": ["contract"],
+      "examples": [
+        {
+          "type": "sample_output",
+          "caption": "Fixture manifest",
+          "language": "csv",
+          "text": "dataset,file_size_mb,runs\nsmall,5,10\nmedium,20,10\nlarge,50,10\n"
+        }
+      ]
+    },
+    {
+      "id": "report",
+      "title": "Publish the latency report",
+      "detail": "Run both exporters over the fixtures and summarize the measurements.",
+      "outcome": "The team has a baseline latency curve for both exporters.",
+      "depends_on": ["instrument", "fixtures"]
+    }
+  ],
+  "decisions": [
+    {"step_id": "contract", "question": "Should the benchmark record cold-start latency separately?"},
+    {"step_id": "report", "question": "Which file size should determine the initial performance budget?"}
+  ]
+}

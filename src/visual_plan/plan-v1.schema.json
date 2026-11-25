@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Visual Plan v1",
+  "type": "object",
+  "required": ["schema_version", "id", "title", "goal", "steps"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "id": {"$ref": "#/$defs/nonblank"},
+    "title": {"$ref": "#/$defs/nonblank"},
+    "goal": {"$ref": "#/$defs/nonblank"},
+    "steps": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/step"}},
+    "decisions": {"type": "array", "items": {"$ref": "#/$defs/decision"}},
+    "examples": {"$ref": "#/$defs/examples"}
+  },
+  "$defs": {
+    "nonblank": {"type": "string", "pattern": "\\S"},
+    "step": {
+      "type": "object",
+      "required": ["id", "title", "detail", "outcome", "depends_on"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"$ref": "#/$defs/nonblank"},
+        "title": {"$ref": "#/$defs/nonblank"},
+        "detail": {"$ref": "#/$defs/nonblank"},
+        "outcome": {"$ref": "#/$defs/nonblank"},
+        "depends_on": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonblank"}
+        },
+        "examples": {"$ref": "#/$defs/examples"}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "required": ["step_id", "question"],
+      "additionalProperties": false,
+      "properties": {
+        "step_id": {"$ref": "#/$defs/nonblank"},
+        "question": {"$ref": "#/$defs/nonblank"}
+      }
+    },
+    "examples": {"type": "array", "items": {"$ref": "#/$defs/example"}},
+    "example": {
+      "type": "object",
+      "required": ["type", "caption"],
+      "properties": {
+        "type": {"enum": ["plot", "diagram", "sample_output", "table"]},
+        "caption": {"$ref": "#/$defs/nonblank"}
+      },
+      "allOf": [
+        {"if": {"required": ["type"], "properties": {"type": {"const": "plot"}}}, "then": {"$ref": "#/$defs/plot"}},
+        {"if": {"required": ["type"], "properties": {"type": {"const": "diagram"}}}, "then": {"$ref": "#/$defs/diagram"}},
+        {"if": {"required": ["type"], "properties": {"type": {"const": "sample_output"}}}, "then": {"$ref": "#/$defs/sample_output"}},
+        {"if": {"required": ["type"], "properties": {"type": {"const": "table"}}}, "then": {"$ref": "#/$defs/table"}}
+      ],
+      "unevaluatedProperties": false
+    },
+    "plot": {
+      "required": ["chart", "x_axis", "y_axis", "series"],
+      "properties": {
+        "chart": {"enum": ["line", "bar"]},
+        "x_axis": {"$ref": "#/$defs/axis"},
+        "y_axis": {"$ref": "#/$defs/axis"},
+        "series": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/series"}}
+      }
+    },
+    "axis": {
+      "type": "object",
+      "required": ["label"],
+      "additionalProperties": false,
+      "properties": {
+        "label": {"$ref": "#/$defs/nonblank"},
+        "unit": {"$ref": "#/$defs/nonblank"}
+      }
+    },
+    "series": {
+      "type": "object",
+      "required": ["name", "points"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"$ref": "#/$defs/nonblank"},
+        "points": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["x", "y"],
+            "additionalProperties": false,
+            "properties": {
+              "x": {"type": ["number", "string"]},
+              "y": {"type": "number"}
+            }
+          }
+        }
+      }
+    },
+    "diagram": {
+      "required": ["nodes", "edges"],
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "label"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {"$ref": "#/$defs/nonblank"},
+              "label": {"$ref": "#/$defs/nonblank"}
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["from", "to"],
+            "additionalProperties": false,
+            "properties": {
+              "from": {"$ref": "#/$defs/nonblank"},
+              "to": {"$ref": "#/$defs/nonblank"},
+              "label": {"$ref": "#/$defs/nonblank"}
+            }
+          }
+        }
+      }
+    },
+    "sample_output": {
+      "required": ["text"],
+      "properties": {
+        "text": {"type": "string"},
+        "language": {"type": "string", "pattern": "^[a-zA-Z0-9_+.\\-]+(?![\\s\\S])"}
+      }
+    },
+    "table": {
+      "required": ["columns", "rows"],
+      "properties": {
+        "columns": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/nonblank"}},
+        "rows": {
+          "type": "array",
+          "items": {"type": "array", "items": {"type": ["string", "number", "boolean", "null"]}}
+        }
+      }
+    }
+  }
+}

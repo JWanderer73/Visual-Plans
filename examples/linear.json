@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "id": "account-export",
+  "title": "Add account data export",
+  "goal": "Let users download a copy of their account data.",
+  "steps": [
+    {
+      "id": "contract",
+      "title": "Define the export contract",
+      "detail": "Specify the fields, file format, and authorization rules.",
+      "outcome": "An agreed contract and an example export.",
+      "depends_on": []
+    },
+    {
+      "id": "endpoint",
+      "title": "Implement the download endpoint",
+      "detail": "Generate the export using the agreed contract.",
+      "outcome": "An authenticated user can download their own data.",
+      "depends_on": ["contract"]
+    }
+  ],
+  "decisions": [
+    {
+      "step_id": "contract",
+      "question": "Should the export include archived records?"
+    }
+  ]
+}
