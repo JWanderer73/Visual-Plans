@@ -5,6 +5,8 @@ description: Use whenever the user asks to create or revise a plan, including â€
 
 # Visual Plans
 
+The saved Markdown document is the official plan. Agents use it for implementation and handoffs. The visual plan is solely for human review and feedback.
+
 ## Draft the plan
 
 Inspect the context relevant to the request, including the target repository when planning code changes. Keep the detail proportional to the task and include relevant design choices, constraints, tradeoffs, tests, and open decisions. Use these prompts to fill gaps in the plan where they matter.
@@ -25,7 +27,7 @@ Whenever a deliverable is a report, populate the plan-level `examples` array wit
 
 ## Save the document and open the review
 
-Use stable paths for the source JSON, Markdown plan document, and HTML preview. Update the existing plan document at its original path. When adopting an existing document, carry its relevant content into the JSON before regenerating it. For a new plan, save the Markdown alongside the JSON. Keep the full plan in these artifacts. In chat or terminal replies, give only a brief change summary and links to the live browser review and saved document.
+Use stable paths for the source JSON, Markdown plan document, and HTML preview. Update the existing plan document at its original path. Before each revision, reconcile the rendering JSON with the current Markdown so direct edits to the official plan survive regeneration. For a new plan, save the Markdown alongside the JSON. Keep the Markdown complete enough to execute on its own. In chat or terminal replies, give only a brief change summary and links to the live browser review and saved document.
 
 For every draft and revision, render the document and preview from the same JSON. Stage the Markdown beside the destination so a failed render preserves the previous document. Run these commands from the target repository with the three paths set:
 
