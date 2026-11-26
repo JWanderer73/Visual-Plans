@@ -41,6 +41,24 @@ By default, stdout receives the entire Markdown plan and stderr receives the abs
 
 By default, previews live under the operating system's per-user cache directory. The CLI keys each preview by the Git root of the working directory, or the working directory itself outside Git, and by the plan ID. Rendering a valid revision atomically replaces the previous preview. Refresh the existing browser tab to see the update. Use `--output PATH` to select a different location or collect the file on a remote runner.
 
+## Review comments
+
+Start a review and keep the command running while you collect feedback.
+
+```sh
+visual-plan render plan.json --review --format json
+```
+
+In the browser, select a passage, choose **Add comment**, and save your note. Repeat for each passage. Open **Feedback** to edit or remove comments, jump to their passages, or **Submit feedback** as a batch. Each saved comment is written to disk. You can reload the review or stop the command and start it again with the same rendered revision to resume the draft.
+
+The review runs on the same machine as the browser and prints its local URL to stderr. `--no-open` lets you open that URL yourself. `--open` by itself opens the offline HTML file. With `--review --format json`, the command waits for submission and returns the usual render fields plus `feedback`, which contains the plan ID, revision, and comments with their selected text and step IDs. In Markdown mode the plan streams first and the feedback follows on submission.
+
+An agent can read submitted batches after the review command exits. This reads the companion `.feedback.sqlite3` file next to the preview and returns an array of batches in JSON.
+
+```sh
+visual-plan feedback /path/to/plan.html
+```
+
 ## Options and configuration
 
 | Option | Behavior |
@@ -49,6 +67,7 @@ By default, previews live under the operating system's per-user cache directory.
 | `--format markdown\|json` | Select the stdout format. |
 | `--output PATH` | Save the preview at an explicit path. |
 | `--open` or `--no-open` | Enable or disable browser launch after saving. |
+| `--review` | Open a local review that saves comments and waits for feedback. Use `--no-open` to skip automatic launch. |
 | `--theme system\|light\|dark` | Control the preview's color scheme. |
 | `--layout auto\|diagram\|list` | Select the overview. Automatic layout uses a numbered sequence for linear plans, a diagram for branches and joins, and the list first for dense graphs. Narrow screens and print use the linked list. |
 | `--config PATH` | Read settings from a specific TOML file. |

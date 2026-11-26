@@ -1,0 +1,80 @@
+.review-enabled { padding-bottom: 6.5rem; }
+
+#review-tools, #review-dialog {
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: .7rem;
+  box-shadow: var(--shadow);
+  overflow-wrap: anywhere;
+}
+
+#review-tools {
+  position: fixed;
+  z-index: 2;
+  inset: auto .75rem .75rem auto;
+  max-width: calc(100% - 1.5rem);
+  padding: .6rem .75rem;
+}
+
+#review-hint, #review-status { color: var(--muted); font-size: .88rem; margin-top: .3rem; }
+#review-status:empty { display: none; }
+
+#review-tools button, #review-dialog button {
+  padding: .35rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: .4rem;
+  background: var(--surface);
+  color: var(--accent);
+  font: inherit;
+  font-size: .9rem;
+  cursor: pointer;
+}
+
+#review-tools button:disabled, #review-dialog button:disabled { opacity: .55; cursor: default; }
+#review-tools button:enabled:hover, #review-dialog button:enabled:hover { border-color: var(--accent); }
+#review-tools #review-add, #review-dialog #review-submit, #review-dialog button[type="submit"] {
+  background: var(--accent-wash);
+}
+
+#review-dialog {
+  width: min(100% - 1.5rem, 34rem);
+  max-height: 85vh;
+  padding: 1rem;
+}
+
+#review-dialog::backdrop { background: #0c192a75; }
+#review-dialog header { display: flex; justify-content: space-between; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+#review-dialog h2 { margin: 0; }
+#review-dialog blockquote {
+  margin: 0 0 .65rem;
+  padding: .35rem .75rem;
+  border-inline-start: 3px solid var(--accent);
+  background: var(--accent-wash);
+  white-space: pre-wrap;
+}
+
+#review-comments { padding-inline-start: 1.4rem; }
+#review-comments li { padding-bottom: .7rem; }
+#review-comments li + li { padding-top: .65rem; border-top: 1px solid var(--line); }
+#review-comments li p { white-space: pre-wrap; margin-bottom: .4rem; }
+#review-comments button { margin-inline-end: .3rem; }
+#review-note {
+  display: block;
+  width: 100%;
+  margin: .25rem 0 .65rem;
+  padding: .5rem;
+  border: 1px solid var(--line);
+  border-radius: .4rem;
+  background: var(--canvas);
+  color: inherit;
+  font: inherit;
+  resize: vertical;
+}
+
+::highlight(plan-feedback) { background-color: var(--decision-wash); text-decoration: underline var(--decision); }
+
+@media print {
+  .review-enabled { padding-bottom: 0; }
+  #review-tools, #review-dialog, #review-dialog::backdrop { display: none; }
+}

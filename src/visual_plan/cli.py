@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import sqlite3
 import subprocess
 import sys
 import tomllib
@@ -14,6 +15,8 @@ from tempfile import NamedTemporaryFile
 from platformdirs import user_cache_path, user_config_path
 
 from .render import LAYOUTS, THEMES, render_plan
+from .review import collect_feedback, submitted_feedback
+from .text import markdown_text
 from .validation import load_plan
 
 APP_NAME = "visual-plan"
@@ -38,10 +41,13 @@ def _parser() -> argparse.ArgumentParser:
     render.add_argument("--config", type=Path, metavar="PATH", help="read settings from this TOML file")
     render.add_argument("--theme", choices=THEMES, help="override the saved preview theme")
     render.add_argument("--layout", choices=LAYOUTS, help="override the saved overview layout")
+    render.add_argument("--review", action="store_true", help="open a browser review and wait for its feedback")
     render.add_argument(
         "--open", action=argparse.BooleanOptionalAction, default=None, dest="open_browser",
-        help="open the written preview in a browser",
+        help="control browser launch (enabled by default with --review)",
     )
+    feedback = commands.add_parser("feedback", help="read submitted feedback for a preview as JSON")
+    feedback.add_argument("preview", type=Path, help="path to the saved HTML preview")
     return parser
 
 
@@ -115,9 +121,9 @@ def _write_preview(path: Path, html: str) -> None:
             temporary.unlink(missing_ok=True)
 
 
-def _open_preview(path: Path) -> str:
+def _open_browser(url: str) -> str:
     try:
-        if webbrowser.open(path.as_uri(), new=2):
+        if webbrowser.open(url, new=2):
             return "opened"
         reason = "no browser reported a successful launch"
     except (OSError, webbrowser.Error) as error:
@@ -129,6 +135,9 @@ def _open_preview(path: Path) -> str:
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     try:
+        if args.command == "feedback":
+            print(json.dumps(submitted_feedback(args.preview.expanduser().resolve()), ensure_ascii=False))
+            return 0
         if args.stdin:
             source = sys.stdin.buffer.read().decode("utf-8-sig")
         else:
@@ -138,17 +147,49 @@ def main(argv: list[str] | None = None) -> int:
         rendered = render_plan(plan, theme=settings.theme, layout=settings.layout)
         path = _preview_path(args.output, plan["id"])
         _write_preview(path, rendered.html)
-    except (OSError, ValueError, RuntimeError) as error:
+    except (OSError, ValueError, RuntimeError, sqlite3.Error) as error:
         print(f"{APP_NAME}: {error}", file=sys.stderr)
         return 1
 
-    open_status = _open_preview(path) if settings.open_browser else "not_requested"
+    open_status = "not_requested"
+    feedback = None
+    if args.review:
+        def ready(url: str) -> None:
+            nonlocal open_status
+            print(path, file=sys.stderr)
+            print(f"Review: {url}", file=sys.stderr, flush=True)
+            if args.format == "markdown":
+                print(rendered.markdown, end="", flush=True)
+            if args.open_browser is not False:
+                open_status = _open_browser(url)
+
+        try:
+            feedback = collect_feedback(path, plan["id"], plan["title"], rendered.html, ready)
+        except KeyboardInterrupt:
+            print("Review stopped. Saved comments are kept for this revision.", file=sys.stderr)
+            return 130
+        except (OSError, sqlite3.Error) as error:
+            print(f"{APP_NAME}: {error}", file=sys.stderr)
+            return 1
+    elif settings.open_browser:
+        open_status = _open_browser(path.as_uri())
+
     if args.format == "json":
-        print(json.dumps({
+        payload = {
             "markdown": rendered.markdown,
             "preview_path": str(path),
             "open_status": open_status,
-        }, ensure_ascii=False))
+        }
+        if feedback is not None:
+            payload["feedback"] = feedback
+        print(json.dumps(payload, ensure_ascii=False))
+    elif feedback is not None:
+        print("\n## Submitted feedback\n")
+        for comment in feedback["comments"]:
+            steps = ", ".join(map(markdown_text, comment["step_ids"]))
+            if steps:
+                print(f"**Steps** · {steps}\n")
+            print(f"> {markdown_text(comment['quote'])}\n\n{markdown_text(comment['note'])}\n")
     else:
         sys.stdout.write(rendered.markdown)
         print(path, file=sys.stderr)

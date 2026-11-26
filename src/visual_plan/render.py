@@ -1,5 +1,6 @@
 """Render a validated plan for chat and browser review."""
 
+import json
 from collections import defaultdict
 from dataclasses import dataclass
 from functools import cache
@@ -224,7 +225,7 @@ def _html_steps(steps: dict, decisions: list[dict]) -> str:
                 f"{_html_list(questions[step_id])}</aside>"
             )
         sections.append(
-            f'<details class="step" id="{_anchor(step_id)}" open><summary>'
+            f'<details class="step" id="{_anchor(step_id)}" data-step-id="{escape(json.dumps(step_id))}" open><summary>'
             f'<span class="step-number">{number}.</span> <span>{escape(step["title"])}</span>'
             '</summary><div class="step-body">'
             f'<p class="prose">{escape(step["detail"])}</p>'
@@ -266,6 +267,16 @@ def render_html(plan: Plan, *, theme: str = "system", layout: str = "auto") -> s
         '<section aria-labelledby="steps-title"><h2 id="steps-title">Steps</h2>'
         f"{_html_steps(steps, plan.get('decisions', []))}</section></main>"
         f"<script>{_asset('preview.js')}</script></body></html>\n"
+    )
+
+
+def review_html(preview: str) -> str:
+    """Add review controls to a preview served by the local review command."""
+    preview = preview.replace("</head>", f"<style>{_asset('review.css')}</style></head>", 1)
+    document, end = preview.rsplit("</body>", 1)
+    return (
+        f"{document}{_asset('review.html')}"
+        f"<script>{_asset('review.js')}</script></body>{end}"
     )
 
 

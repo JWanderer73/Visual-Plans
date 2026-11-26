@@ -1,0 +1,24 @@
+<aside id="review-tools" aria-label="Plan review" hidden>
+  <button id="review-add" type="button" disabled>Add comment</button>
+  <button id="review-open" type="button" aria-haspopup="dialog">Feedback</button>
+  <p id="review-hint">Select plan text to add a comment.</p>
+</aside>
+<dialog id="review-dialog" aria-labelledby="review-title">
+  <header>
+    <h2 id="review-title">Plan feedback</h2>
+    <button id="review-close" type="button">Close</button>
+  </header>
+  <div id="review-inbox">
+    <p id="review-empty">Select text in the plan and choose Add comment.</p>
+    <ol id="review-comments"></ol>
+    <button id="review-submit" type="button" disabled>Submit feedback</button>
+  </div>
+  <form id="review-editor" hidden>
+    <blockquote id="review-quote"></blockquote>
+    <label for="review-note">Comment</label>
+    <textarea id="review-note" rows="4" required></textarea>
+    <button type="submit">Save comment</button>
+    <button id="review-cancel" type="button">Cancel</button>
+  </form>
+  <p id="review-status" role="status"></p>
+</dialog>
