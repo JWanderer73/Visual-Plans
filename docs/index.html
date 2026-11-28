@@ -12,7 +12,8 @@
   <header class="masthead wrap">
     <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Visual Plans</a>
     <nav aria-label="Main navigation">
-      <a href="#workflow">Workflow</a>
+      <a href="#workflow">Walkthrough</a>
+      <a href="#tools">Tools</a>
       <a href="#quickstart">Agent setup</a>
       <a href="https://github.com/JWanderer73/Visual-Plans">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
@@ -23,53 +24,83 @@
       <div class="hero-copy">
         <p class="eyebrow">Option 3 · Agentic development environment</p>
         <h1 id="title">Review plans with your <em>coding agent.</em></h1>
-        <p class="intro">Ask Codex to draft a plan in your repository, then review it in a local browser. Follow dependencies, inspect examples, and send comments on specific passages back to the agent for the next revision.</p>
+        <p class="intro">Visual Plans connects my Codex session, a local browser review, and the plan files in my project. I work through a brief visual draft with the agent before reading the full implementation plan in Markdown.</p>
         <div class="actions">
-          <a class="button" href="#quickstart">Set up your agent <span aria-hidden="true">↓</span></a>
-          <a class="text-link" href="https://github.com/JWanderer73/Visual-Plans">View source <span aria-hidden="true">↗</span></a>
+          <a class="button" href="#workflow">See how I review a plan <span aria-hidden="true">↓</span></a>
+          <a class="text-link" href="#quickstart">Agent setup <span aria-hidden="true">↓</span></a>
         </div>
       </div>
       <figure class="hero-figure">
         <a class="image-frame" href="assets/plan-overview.png">
           <img src="assets/plan-overview.png" width="2536" height="1800" alt="Plan preview showing a four-step dependency diagram and a line chart comparing five methods on illustrative data">
         </a>
-        <figcaption>Dependency overview and an illustrative plot</figcaption>
+        <figcaption>The browser overview shows a four-step plan with a branch, a join, and an illustrative plot.</figcaption>
       </figure>
     </section>
 
     <section class="workflow" id="workflow" aria-labelledby="workflow-title">
       <div class="wrap">
-        <p class="eyebrow">The review workflow</p>
-        <h2 id="workflow-title">From a request to a revised plan</h2>
-        <div class="workflow-grid">
-          <article>
-            <h3>The agent drafts</h3>
-            <p>Ask for a plan in Codex. The Visual Plans skill tells the agent to inspect the repository, write structured JSON, and invoke the Python CLI. The CLI validates the JSON, generates Markdown and HTML, and serves the browser review locally.</p>
-          </article>
-          <article>
-            <h3>You review in the browser</h3>
-            <p>Open the link the agent shares. Follow dependencies in a diagram or linked list, inspect examples beside individual steps, and select passages to comment on. The local review saves drafts until you submit them as a batch.</p>
-          </article>
-          <article>
-            <h3>The agent revises</h3>
-            <p>The agent keeps the review session open, reads the submitted comments from the CLI, and regenerates the plan and browser review. The saved Markdown is the source of truth for implementation and handoffs.</p>
-          </article>
-        </div>
-        <div class="gallery">
-          <figure>
-            <a class="image-frame" href="assets/step-detail.png">
-              <img src="assets/step-detail.png" width="2198" height="728" alt="An expanded plan step with an outcome, a linked prerequisite, and a literal sample comparing scores with a ballot" loading="lazy">
-            </a>
-            <figcaption>An expanded step with its prerequisite and sample output</figcaption>
-          </figure>
-          <figure>
-            <a class="image-frame" href="assets/plan-feedback.png">
-              <img src="assets/plan-feedback.png" width="2184" height="1186" alt="The Plan feedback dialog showing a saved draft comment, its selected passage, and controls to edit or submit feedback" loading="lazy">
-            </a>
-            <figcaption>A draft comment beside the passage it refers to</figcaption>
-          </figure>
-        </div>
+        <h2 id="workflow-title">How I work through a plan</h2>
+        <ol class="walkthrough">
+          <li>
+            <div class="walkthrough-copy">
+              <h3>Ask for a draft and read the overview</h3>
+              <p>I ask Codex to make a plan in the project I’m working in. The agent reads the relevant files, drafts the steps and expected outcomes, and sends me links to the browser review and the saved Markdown. I start in the browser with the brief plan.</p>
+              <p>The overview switches between a dependency diagram and a linked list. In the example above, two analyses can proceed from the same prerequisite, and their results come together in the final step. I use that view to check whether the order of work makes sense.</p>
+            </div>
+          </li>
+          <li>
+            <div class="walkthrough-copy">
+              <h3>Understand and validate the ideas</h3>
+              <p>I open individual steps to check what each one will do, what it depends on, what result to expect, and what decisions are still open. Plots, diagrams, tables, and sample outputs can appear alongside the step they explain.</p>
+              <p>In this example, I can check what information each classifier would receive. The sample makes the distinction concrete by showing how two numeric scores become a ballot that preserves only their order.</p>
+            </div>
+            <figure>
+              <a class="image-frame" href="assets/step-detail.png">
+                <img src="assets/step-detail.png" width="2198" height="728" alt="An expanded plan step with an outcome, a linked prerequisite, and a literal sample comparing scores with a ballot" loading="lazy">
+              </a>
+              <figcaption>An expanded step shows its outcome and prerequisite. The sample compares scores of 5.1 and 5.0 with the resulting ballot, A &gt; B.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <div class="walkthrough-copy">
+              <h3>Leave comments and review the next draft</h3>
+              <p>When a passage is unclear or an assumption needs checking, I select it and choose <strong>Add comment</strong>. The <strong>Feedback</strong> panel keeps each note with its selected text, so I can jump back to the passage, edit the note, or collect more comments before submitting them together.</p>
+              <p>The agent waits while I read. When I submit, it uses the comments and their step references to revise the plan, then shares a fresh review link. I read the changed steps and repeat the loop until the ideas make sense and the proposed work checks out.</p>
+            </div>
+            <figure>
+              <a class="image-frame" href="assets/plan-feedback.png">
+                <img src="assets/plan-feedback.png" width="2184" height="1186" alt="The Plan feedback dialog showing a saved draft comment, its selected passage, and controls to edit or submit feedback" loading="lazy">
+              </a>
+              <figcaption>A question about the score oracle stays attached to the original sentence in the feedback panel.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <div class="walkthrough-copy">
+              <h3>Read the full Markdown plan</h3>
+              <p>Once I’m happy with the approach, I open the saved Markdown and read the full plan, including the implementation details. That document is the official plan I can refer to later or hand to a coding agent for implementation.</p>
+            </div>
+          </li>
+        </ol>
       </div>
+    </section>
+
+    <section class="tools wrap" id="tools" aria-labelledby="tools-title">
+      <h2 id="tools-title">What the environment brings together</h2>
+      <dl class="tools-grid">
+        <div>
+          <dt>Codex and the Visual Plans skill</dt>
+          <dd>Project instructions activate the skill for planning requests. The agent inspects the repository, writes the draft, starts the review, and incorporates feedback. On a revision it reads the saved plan first so direct edits can carry forward.</dd>
+        </div>
+        <div>
+          <dt>Structured JSON and a Python renderer</dt>
+          <dd>The JSON records steps, prerequisite links, decisions, and examples. The <code>visual-plan</code> CLI validates that input against a schema and renders the shared plan content into Markdown and self-contained HTML. The agent can add implementation notes to the Markdown.</dd>
+        </div>
+        <div>
+          <dt>Local browser review and SQLite</dt>
+          <dd>A local server adds passage selection and commenting to the HTML review. SQLite stores comment drafts so I can reload the review and pick up where I left off. On submission, the CLI returns the comments as a structured batch the agent can read.</dd>
+        </div>
+      </dl>
     </section>
 
     <section class="quickstart wrap" id="quickstart" aria-labelledby="quickstart-title">
