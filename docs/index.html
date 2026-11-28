@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Visual Plans renders a structured JSON plan as complete Markdown and a self-contained HTML preview with linked steps, examples, and browser feedback.">
+  <title>Visual Plans — A browser companion for structured plans</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="masthead wrap">
+    <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Visual Plans</a>
+    <nav aria-label="Main navigation">
+      <a href="#workflow">Workflow</a>
+      <a href="#quickstart">Quickstart</a>
+      <a href="https://github.com/JWanderer73/Visual-Plans">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="title">
+      <div class="hero-copy">
+        <p class="eyebrow">A CLI and skill for plan reviews</p>
+        <h1 id="title">See how your<br>plan <em>fits together.</em></h1>
+        <p class="intro">Render one structured JSON plan as complete Markdown for chat and a matching HTML preview for the browser. Follow dependencies, inspect examples, and leave feedback on the exact passage.</p>
+        <div class="actions">
+          <a class="button" href="#quickstart">Run the example <span aria-hidden="true">↓</span></a>
+          <a class="text-link" href="https://github.com/JWanderer73/Visual-Plans">View source <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <figure class="hero-figure">
+        <a class="image-frame" href="assets/plan-overview.png">
+          <img src="assets/plan-overview.png" width="2536" height="1800" alt="Plan preview showing a four-step dependency diagram and a line chart comparing five methods on illustrative data">
+        </a>
+        <figcaption>Dependency overview and an illustrative plot</figcaption>
+      </figure>
+    </section>
+
+    <section class="workflow" id="workflow" aria-labelledby="workflow-title">
+      <div class="wrap">
+        <p class="eyebrow">The review workflow</p>
+        <h2 id="workflow-title">From overview to feedback</h2>
+        <div class="workflow-grid">
+          <article>
+            <h3>Follow the plan</h3>
+            <p>Switch between the dependency diagram and a linked list. Open a step to see its outcome, prerequisites, and any decisions that need your input.</p>
+          </article>
+          <article>
+            <h3>Inspect an example</h3>
+            <p>Put plots, diagrams, tables, or literal sample output alongside the plan or the step they illustrate.</p>
+          </article>
+          <article>
+            <h3>Comment in context</h3>
+            <p>In a local review session, select text and add a comment. Edit saved drafts or jump back to their passages before submitting feedback as a batch.</p>
+          </article>
+        </div>
+        <div class="gallery">
+          <figure>
+            <a class="image-frame" href="assets/step-detail.png">
+              <img src="assets/step-detail.png" width="2198" height="728" alt="An expanded plan step with an outcome, a linked prerequisite, and a literal sample comparing scores with a ballot" loading="lazy">
+            </a>
+            <figcaption>An expanded step with its prerequisite and sample output</figcaption>
+          </figure>
+          <figure>
+            <a class="image-frame" href="assets/plan-feedback.png">
+              <img src="assets/plan-feedback.png" width="2184" height="1186" alt="The Plan feedback dialog showing a saved draft comment, its selected passage, and controls to edit or submit feedback" loading="lazy">
+            </a>
+            <figcaption>A draft comment beside the passage it refers to</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="quickstart wrap" id="quickstart" aria-labelledby="quickstart-title">
+      <div>
+        <p class="eyebrow">Quickstart</p>
+        <h2 id="quickstart-title">Open your first preview</h2>
+        <p>With Python 3.11 or later and uv installed, clone the repository and render the included linear example. The CLI prints Markdown and opens the matching HTML preview.</p>
+        <p class="resources">
+          <a href="https://github.com/JWanderer73/Visual-Plans#review-comments">Review guide <span aria-hidden="true">↗</span></a>
+          <a href="https://github.com/JWanderer73/Visual-Plans/blob/main/src/visual_plan/plan-v1.schema.json">JSON Schema <span aria-hidden="true">↗</span></a>
+          <a href="https://github.com/JWanderer73/Visual-Plans/tree/main/skills/visual-plans">Agent skill <span aria-hidden="true">↗</span></a>
+        </p>
+      </div>
+      <div class="terminal">
+        <div class="terminal-label">Terminal</div>
+        <pre><code>git clone https://github.com/JWanderer73/Visual-Plans.git
+cd Visual-Plans
+uv sync --locked
+uv run visual-plan render examples/linear.json --open</code></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer wrap">
+    <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Visual Plans</a>
+    <a href="https://github.com/JWanderer73/Visual-Plans">Project repository <span aria-hidden="true">↗</span></a>
+  </footer>
+</body>
+</html>
