@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Visual Plans renders a structured JSON plan as complete Markdown and a self-contained HTML preview with linked steps, examples, and browser feedback.">
-  <title>Visual Plans — A browser companion for structured plans</title>
+  <meta name="description" content="Visual Plans is an agentic development environment for drafting, reviewing, and revising coding-agent plans with Codex and a local browser.">
+  <title>Visual Plans — An agentic development environment for plan review</title>
   <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
     <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Visual Plans</a>
     <nav aria-label="Main navigation">
       <a href="#workflow">Workflow</a>
-      <a href="#quickstart">Quickstart</a>
+      <a href="#quickstart">Agent setup</a>
       <a href="https://github.com/JWanderer73/Visual-Plans">GitHub <span aria-hidden="true">↗</span></a>
     </nav>
   </header>
@@ -21,11 +21,11 @@
   <main id="main">
     <section class="hero wrap" aria-labelledby="title">
       <div class="hero-copy">
-        <p class="eyebrow">A CLI and skill for plan reviews</p>
-        <h1 id="title">See how your<br>plan <em>fits together.</em></h1>
-        <p class="intro">Render one structured JSON plan as complete Markdown for chat and a matching HTML preview for the browser. Follow dependencies, inspect examples, and leave feedback on the exact passage.</p>
+        <p class="eyebrow">Option 3 · Agentic development environment</p>
+        <h1 id="title">Review plans with your <em>coding agent.</em></h1>
+        <p class="intro">Ask Codex to draft a plan in your repository, then review it in a local browser. Follow dependencies, inspect examples, and send comments on specific passages back to the agent for the next revision.</p>
         <div class="actions">
-          <a class="button" href="#quickstart">Run the example <span aria-hidden="true">↓</span></a>
+          <a class="button" href="#quickstart">Set up your agent <span aria-hidden="true">↓</span></a>
           <a class="text-link" href="https://github.com/JWanderer73/Visual-Plans">View source <span aria-hidden="true">↗</span></a>
         </div>
       </div>
@@ -40,19 +40,19 @@
     <section class="workflow" id="workflow" aria-labelledby="workflow-title">
       <div class="wrap">
         <p class="eyebrow">The review workflow</p>
-        <h2 id="workflow-title">From overview to feedback</h2>
+        <h2 id="workflow-title">From a request to a revised plan</h2>
         <div class="workflow-grid">
           <article>
-            <h3>Follow the plan</h3>
-            <p>Switch between the dependency diagram and a linked list. Open a step to see its outcome, prerequisites, and any decisions that need your input.</p>
+            <h3>The agent drafts</h3>
+            <p>Ask for a plan in Codex. The Visual Plans skill tells the agent to inspect the repository, write structured JSON, and invoke the Python CLI. The CLI validates the JSON, generates Markdown and HTML, and serves the browser review locally.</p>
           </article>
           <article>
-            <h3>Inspect an example</h3>
-            <p>Put plots, diagrams, tables, or literal sample output alongside the plan or the step they illustrate.</p>
+            <h3>You review in the browser</h3>
+            <p>Open the link the agent shares. Follow dependencies in a diagram or linked list, inspect examples beside individual steps, and select passages to comment on. The local review saves drafts until you submit them as a batch.</p>
           </article>
           <article>
-            <h3>Comment in context</h3>
-            <p>In a local review session, select text and add a comment. Edit saved drafts or jump back to their passages before submitting feedback as a batch.</p>
+            <h3>The agent revises</h3>
+            <p>The agent keeps the review session open, reads the submitted comments from the CLI, and regenerates the plan and browser review. The saved Markdown is the source of truth for implementation and handoffs.</p>
           </article>
         </div>
         <div class="gallery">
@@ -74,21 +74,34 @@
 
     <section class="quickstart wrap" id="quickstart" aria-labelledby="quickstart-title">
       <div>
-        <p class="eyebrow">Quickstart</p>
-        <h2 id="quickstart-title">Open your first preview</h2>
-        <p>With Python 3.11 or later and uv installed, clone the repository and render the included linear example. The CLI prints Markdown and opens the matching HTML preview.</p>
+        <p class="eyebrow">Local setup</p>
+        <h2 id="quickstart-title">Connect Visual Plans to your agent</h2>
+        <ol class="setup-steps">
+          <li><strong>Install the renderer.</strong> With Python 3.11 or later and uv installed, run the terminal commands. Run the agent in an environment where it can call <code>visual-plan</code> and your browser can reach the local review server.</li>
+          <li><strong>Install the skill.</strong> Copy the entire <code>skills/visual-plans</code> folder, including its schema, into your target repository’s <code>.agents/skills/</code> directory for Codex. For another coding agent, use its skill directory or make <code>SKILL.md</code> and its references available in the workspace.</li>
+          <li><strong>Update the agent’s instructions.</strong> Add the rule shown here to your target project’s root <code>AGENTS.md</code> for Codex. For another coding agent, add it to the equivalent project instructions and point to the skill where you installed it. Then start a new session in that project and ask it to make a plan.</li>
+        </ol>
         <p class="resources">
-          <a href="https://github.com/JWanderer73/Visual-Plans#review-comments">Review guide <span aria-hidden="true">↗</span></a>
-          <a href="https://github.com/JWanderer73/Visual-Plans/blob/main/src/visual_plan/plan-v1.schema.json">JSON Schema <span aria-hidden="true">↗</span></a>
           <a href="https://github.com/JWanderer73/Visual-Plans/tree/main/skills/visual-plans">Agent skill <span aria-hidden="true">↗</span></a>
+          <a href="https://learn.chatgpt.com/docs/build-skills#where-codex-loads-local-skills">Codex skill locations <span aria-hidden="true">↗</span></a>
+          <a href="https://learn.chatgpt.com/docs/agent-configuration/agents-md">Codex project instructions <span aria-hidden="true">↗</span></a>
         </p>
       </div>
-      <div class="terminal">
-        <div class="terminal-label">Terminal</div>
-        <pre><code>git clone https://github.com/JWanderer73/Visual-Plans.git
+      <div class="setup-examples">
+        <div class="terminal">
+          <div class="terminal-label">Terminal</div>
+          <pre><code>git clone https://github.com/JWanderer73/Visual-Plans.git
 cd Visual-Plans
-uv sync --locked
-uv run visual-plan render examples/linear.json --open</code></pre>
+uv tool install .</code></pre>
+        </div>
+        <div class="terminal">
+          <div class="terminal-label">AGENTS.md</div>
+          <pre><code>Whenever I ask you to create or revise a plan, use the
+visual-plans skill. Save the Markdown plan, open the
+matching live browser review, and apply submitted
+feedback to the next revision.</code></pre>
+        </div>
+        <p>To try the renderer on its own, run <code>visual-plan render examples/linear.json --open</code> from the Visual Plans checkout.</p>
       </div>
     </section>
   </main>
