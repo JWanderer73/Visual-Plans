@@ -62,28 +62,28 @@
           </li>
           <li>
             <div class="walkthrough-copy">
-              <h3>Understand and validate the ideas</h3>
-              <p>I open individual steps to check what each one will do, what it depends on, what result to expect, and what decisions are still open. Plots, diagrams, tables, and sample outputs can appear alongside the step they explain.</p>
-              <p>In this example, I can check what information each classifier would receive. The sample makes the distinction concrete by showing how two numeric scores become a ballot that preserves only their order.</p>
+              <h3>Read the steps and flag what’s unclear</h3>
+              <p>I open individual steps to check what they will do and what results to expect. In this draft, step 3 proposed comparing a ranking classifier with a score oracle. I wanted to understand what each one would see and what the comparison would tell me.</p>
+              <p>I selected the sentence, chose <strong>Add comment</strong>, and wrote “What does this mean exactly?” The <strong>Feedback</strong> panel kept my question attached to the passage. When I chose <strong>Submit feedback</strong>, the agent received the question and the selected text.</p>
             </div>
             <figure>
-              <a class="image-frame" href="assets/step-detail.png">
-                <img src="assets/step-detail.png" width="2198" height="728" alt="An expanded plan step with an outcome, a linked prerequisite, and a literal sample comparing scores with a ballot" loading="lazy">
+              <a class="image-frame" href="assets/plan-feedback.png">
+                <img src="assets/plan-feedback.png" width="2184" height="1186" alt="The original draft with the comparison selected and the saved comment asking what it means" loading="lazy">
               </a>
-              <figcaption>An expanded step shows its outcome and prerequisite. The sample compares scores of 5.1 and 5.0 with the resulting ballot, A &gt; B.</figcaption>
+              <figcaption><strong>Before feedback.</strong> The draft comment points to the original sentence about the two classifiers.</figcaption>
             </figure>
           </li>
           <li>
             <div class="walkthrough-copy">
-              <h3>Leave comments and review the next draft</h3>
-              <p>When a passage is unclear or an assumption needs checking, I select it and choose <strong>Add comment</strong>. The <strong>Feedback</strong> panel keeps each note with its selected text, so I can jump back to the passage, edit the note, or collect more comments before submitting them together.</p>
-              <p>The agent waits while I read. When I submit, it uses the comments and their step references to revise the plan, then shares a fresh review link. I read the changed steps and repeat the loop until the ideas make sense and the proposed work checks out.</p>
+              <h3>See what the agent changed</h3>
+              <p>The agent rewrote the same step in the next draft. It spelled out that the first classifier sees only the item order on a fresh ballot, while the second sees the numeric scores before sorting and knows the true group centers. The revised outcome explains what each result tells me, including why the second serves as an estimate of the accuracy ceiling.</p>
+              <p>The agent also added a concrete example. Scores of 5.1 and 5.0 yield the ballot <strong>A &gt; B</strong>, which keeps the order and drops the size of the gap. I can check that explanation in the new review and comment again if anything still needs work.</p>
             </div>
             <figure>
-              <a class="image-frame" href="assets/plan-feedback.png">
-                <img src="assets/plan-feedback.png" width="2184" height="1186" alt="The Plan feedback dialog showing a saved draft comment, its selected passage, and controls to edit or submit feedback" loading="lazy">
+              <a class="image-frame" href="assets/step-detail.png">
+                <img src="assets/step-detail.png" width="2198" height="728" alt="Revised step 3 with separate instructions for the two classifiers, a clearer outcome, and a worked ballot example" loading="lazy">
               </a>
-              <figcaption>A question about the score oracle stays attached to the original sentence in the feedback panel.</figcaption>
+              <figcaption><strong>After feedback.</strong> The same step now explains the two inputs and includes a worked example.</figcaption>
             </figure>
           </li>
           <li>
