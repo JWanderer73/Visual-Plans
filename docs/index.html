@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Visual Plans is an agentic development environment for drafting, reviewing, and revising coding-agent plans with Codex and a local browser.">
+  <meta name="description" content="Visual Plans helps me catch misunderstandings before implementation by reviewing short visual drafts with my coding agent.">
   <title>Visual Plans — An agentic development environment for plan review</title>
   <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -24,7 +24,7 @@
       <div class="hero-copy">
         <p class="eyebrow">Option 3 · Agentic development environment</p>
         <h1 id="title">Review plans with your <em>coding agent.</em></h1>
-        <p class="intro">Visual Plans connects my Codex session, a local browser review, and the plan files in my project. I work through a brief visual draft with the agent before reading the full implementation plan in Markdown.</p>
+        <p class="intro">Long plans are hard for me to absorb. Visual Plans connects Codex to a brief browser review so I can check what the work will produce before asking the agent to build it.</p>
         <div class="actions">
           <a class="button" href="#workflow">See how I review a plan <span aria-hidden="true">↓</span></a>
           <a class="text-link" href="#quickstart">Agent setup <span aria-hidden="true">↓</span></a>
@@ -36,6 +36,17 @@
         </a>
         <figcaption>The browser overview shows a four-step plan with a branch, a join, and an illustrative plot.</figcaption>
       </figure>
+    </section>
+
+    <section class="motivation wrap" aria-labelledby="motivation-title">
+      <div>
+        <p class="eyebrow">Why I built it</p>
+        <h2 id="motivation-title">I was catching misunderstandings after the work was done</h2>
+      </div>
+      <div class="motivation-copy">
+        <p>Reading a long plan in chat wears me out. I could get through the whole thing and still come away with the wrong idea about what a step would produce. Sometimes I only realized I’d misunderstood when I saw the finished output. By then, I had to go back, change the implementation, and rerun the work.</p>
+        <p>A brief review gives me a smaller piece to read at a time. If a step promises a chart or a table, I can look at an example and check what it would actually show. When it differs from what I expected, I leave a comment on that passage and check the agent’s next draft before any code is written. Once I understand the approach and the expected output, I’m ready to read the full Markdown plan.</p>
+      </div>
     </section>
 
     <section class="workflow" id="workflow" aria-labelledby="workflow-title">
